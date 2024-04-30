@@ -40,7 +40,7 @@ def fcfs(job_pool, sim_speed):
                 cpu["end"] = queue[-1]["end"]
                 waiting_times.append(queue[-1]["start"] - queue[-1]["arrive"])
                 turnaround_times.append(queue[-1]["end"] - queue[-1]["arrive"])
-    return queue, waiting_times, turnaround_times
+    return queue, waiting_times, turnaround_times, cpu
 
 def rr(job_pool, sim_speed, quantum):
     cpu = {"job_id": None, "start": 0, "end": 0}
@@ -71,7 +71,7 @@ def rr(job_pool, sim_speed, quantum):
         else:
             time.sleep(1 / sim_speed)
             current_time += 1
-    return queue, waiting_times, turnaround_times
+    return queue, waiting_times, turnaround_times, cpu
 
 # Define the Streamlit app
 st.title("CPU Scheduler Simulator")
@@ -82,9 +82,9 @@ sim_speed = st.slider("Simulation Speed", 1, 10, 1)
 quantum = st.number_input("Quantum (for Round Robin)", 10, 50, 20)
 
 if algorithm == "First Come First Serve":
-    queue, waiting_times, turnaround_times = fcfs(job_pool[:num_jobs], sim_speed)
+    queue, waiting_times, turnaround_times, cpu = fcfs(job_pool[:num_jobs], sim_speed)
 else:
-    queue, waiting_times, turnaround_times = rr(job_pool[:num_jobs], sim_speed, quantum)
+    queue, waiting_times, turnaround_times, cpu = rr(job_pool[:num_jobs], sim_speed, quantum)
 
 st.subheader("CPU Status")
 st.write(f"Job {cpu['job_id']} is currently running from {cpu['start']} to {cpu['end']}")
