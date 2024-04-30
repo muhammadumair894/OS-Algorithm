@@ -1,6 +1,8 @@
 import streamlit as st
 import random
 import time
+from datetime import datetime
+current_time = datetime.now()
 
 # Define the job pool
 job_pool = [
